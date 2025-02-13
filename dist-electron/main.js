@@ -10185,7 +10185,7 @@ class ElectronStore extends Conf {
     }
   }
 }
-const store = new ElectronStore();
+const store = new ElectronStore({ watch: true });
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = path.join(__dirname, "..");
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
@@ -10202,6 +10202,7 @@ function createWindow() {
       contextIsolation: true
     }
   });
+  win.webContents.openDevTools();
   win.webContents.on("did-finish-load", () => {
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
@@ -10213,8 +10214,10 @@ function createWindow() {
   ipcMain$1.handle("store:get", (_, key) => store.get(key));
   ipcMain$1.handle("store:set", (_, key, value) => store.set(key, value));
   ipcMain$1.handle("store:delete", (_, key) => store.delete(key));
+  ipcMain$1.handle("store:clear", (_) => store.clear());
   store.onDidAnyChange((newValue) => {
-    mainWindow == null ? void 0 : mainWindow.webContents.send("store:update", newValue);
+    console.log("ondidanychange", newValue);
+    win == null ? void 0 : win.webContents.send("store:update", newValue);
   });
 }
 app$1.on("window-all-closed", () => {

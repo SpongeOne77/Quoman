@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { platform } from 'node:process';
@@ -37,6 +36,8 @@ function createWindow() {
       contextIsolation: true,
     },
   })
+  win.webContents.openDevTools();
+
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
@@ -52,9 +53,11 @@ function createWindow() {
   ipcMain.handle('store:get', (_, key) => store.get(key));
   ipcMain.handle('store:set', (_, key, value) => store.set(key, value));
   ipcMain.handle('store:delete', (_, key) => store.delete(key));
+  ipcMain.handle('store:clear', (_) => store.clear())
   store.onDidAnyChange((newValue) => {
-    mainWindow?.webContents.send('store:update', newValue);
-  })
+    console.log('ondidanychange', newValue)
+    win?.webContents.send('store:update', newValue);
+  });
 
 }
 

@@ -25,10 +25,15 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 });
 
 contextBridge.exposeInMainWorld('electronStore', {
-  get: <K extends keyof StoreSchema>(key: K) => ipcRenderer.invoke('store:get', key),
-  set: <K extends keyof StoreSchema>(key: K, value: StoreSchema[K]) => ipcRenderer.invoke('store:set', key, value),
+  get: <K extends keyof StoreSchema>(key: K) => {
+    console.log('inokong store:get')
+     return ipcRenderer.invoke('store:get', key)
+  },
+  set: <K extends keyof StoreSchema>(key: K, value: StoreSchema[K]) => {
+    console.log('invoking store:set')
+    return ipcRenderer.invoke('store:set', key, value)
+  },
   delete: (key: keyof StoreSchema) => ipcRenderer.invoke('store:delete', key),
-  onUpdate: (callback: (key: string, value: unknown) => void) => {
-    ipcRenderer.on('store:update', (_, key, value) => callback(key, value));
-  }
+  onUpdate: (callback: (key: string, value: unknown) => void) => ipcRenderer.on('store:update', (_, key, value) => callback(key, value)),
+  clear: () => ipcRenderer.invoke('store:clear')
 })

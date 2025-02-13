@@ -1,5 +1,5 @@
 export interface Quotation {
-  id?: number;
+  id?: string;
   customerName: string;
   date?: Date;
   items: [];
@@ -9,7 +9,7 @@ export interface Quotation {
 }
 
 export interface QuotationItem {
-  productId: number;
+  productId: string;
   quantity: number;
   name: string;
   unitPrice: number;
@@ -19,7 +19,7 @@ export interface QuotationItem {
 }
 
 export interface Product {
-  id?: number;
+  id?: string;
   name: string;
   brand: string;
   cost: number;

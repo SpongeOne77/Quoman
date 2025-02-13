@@ -2,24 +2,29 @@
 import { ref } from 'vue'
 import {Product} from "../types/quotation.ts";
 import {FormInst} from "naive-ui";
-import {NInput, NFormItem, NForm, NInputNumber} from 'naive-ui'
-import useStore from "../utils/store.ts";
+import {NInput, NFormItem, NForm, NInputNumber, NButton} from 'naive-ui'
+import {useProductStore} from '../utils/store/productStore.ts'
 
-const {
-  data: quotations,
-  loading
-} = useStore('quotations');
+const {products, addProduct, clearAll, refresh} = useProductStore();
 
 const formRef = ref<FormInst | null>(null)
 
 defineProps<{ msg: string }>()
 
 
-const addProductValue = ref<Product>({} as Product);
+const addProductValue = ref<Product>({
+  name: '',
+  brand: '',
+  cost: 0,
+  specifications: ''
+});
+const handleAdd = async (): Promise<void> => {
+  await addProduct(addProductValue.value);
+  refresh();
+}
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
   <n-form
     ref="formRef"
     inline
@@ -40,9 +45,10 @@ const addProductValue = ref<Product>({} as Product);
     </n-form-item>
   </n-form>
 
-  <n-button @click="">添加</n-button>
+  <n-button @click="handleAdd">添加</n-button>
+  <n-button @click="clearAll">清空</n-button>
 
-  <pre>{{ JSON.stringify(addProductValue, null, 2) }}
+  <pre>{{ products }}
 </pre>
 </template>
 

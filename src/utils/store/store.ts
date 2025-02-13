@@ -1,13 +1,14 @@
-import { ref, watchEffect } from 'vue';
-import type {StoreSchema} from "../../electron/store.ts";
+import { ref } from 'vue';
+import type {StoreSchema} from "../../../electron/store.ts";
 
 // 类型声明
 declare global {
   interface Window {
     electronStore: {
-      get: <K extends keyof StoreSchema>(key: K) => Promise<StoreSchema[K]>;
-      set: <K extends keyof StoreSchema>(key: K, value: StoreSchema[K]) => Promise<void>;
+      get: <K extends keyof StoreSchema>(key: K) => Promise<string>;
+      set: <K extends keyof StoreSchema>(key: K, value: string) => Promise<void>;
       delete: (key: keyof StoreSchema) => Promise<void>;
+      clear: () => Promise<void>;
       onUpdate: (callback: (key: string, value: unknown) => void) => void;
     };
   }
@@ -23,7 +24,7 @@ export default function useStore<K extends keyof StoreSchema>(key: K) {
   const fetchData = async () => {
     try {
       loading.value = true;
-      data.value = await window.electronStore.get(key);
+      data.value = JSON.parse(await window.electronStore.get(key));
     } catch (err) {
       error.value = err as Error;
     } finally {
@@ -44,17 +45,23 @@ export default function useStore<K extends keyof StoreSchema>(key: K) {
   // 更新方法
   const update = async (value: StoreSchema[K]) => {
     try {
-      await window.electronStore.set(key, value);
+      await window.electronStore.set(key, JSON.stringify(value));
     } catch (err) {
+      console.error(err);
       error.value = err as Error;
     }
   };
+
+  const clearAll = async () => {
+    await window.electronStore.clear();
+  }
 
   return {
     data,
     loading,
     error,
     update,
-    refresh: fetchData
+    refresh: fetchData,
+    clearAll
   };
 }

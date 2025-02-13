@@ -21,10 +21,15 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   // ...
 });
 electron.contextBridge.exposeInMainWorld("electronStore", {
-  get: (key) => electron.ipcRenderer.invoke("store:get", key),
-  set: (key, value) => electron.ipcRenderer.invoke("store:set", key, value),
+  get: (key) => {
+    console.log("inokong store:get");
+    return electron.ipcRenderer.invoke("store:get", key);
+  },
+  set: (key, value) => {
+    console.log("invoking store:set");
+    return electron.ipcRenderer.invoke("store:set", key, value);
+  },
   delete: (key) => electron.ipcRenderer.invoke("store:delete", key),
-  onUpdate: (callback) => {
-    electron.ipcRenderer.on("store:update", (_, key, value) => callback(key, value));
-  }
+  onUpdate: (callback) => electron.ipcRenderer.on("store:update", (_, key, value) => callback(key, value)),
+  clear: () => electron.ipcRenderer.invoke("store:clear")
 });
