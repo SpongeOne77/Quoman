@@ -20,7 +20,7 @@ const addProductValue = ref<Product>({
 });
 const handleAdd = async (): Promise<void> => {
   await addProduct(addProductValue.value);
-  refresh();
+  await refresh();
 }
 </script>
 

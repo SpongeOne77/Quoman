@@ -19,10 +19,11 @@ export interface QuotationItem {
 }
 
 export interface Product {
-  id?: string;
+  id: string;
   name: string;
   brand: string;
   cost: number;
+  unit: string;
   specifications?: string;
   picture?: string;
 }

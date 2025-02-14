@@ -14,10 +14,6 @@ export const useProductStore = () => {
     return newProduct;
   };
 
-  const clearAll = async () => {
-
-  }
-
   return {
     products,
     addProduct,

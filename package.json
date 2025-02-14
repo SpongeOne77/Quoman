@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "electron-store": "^10.0.1",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
@@ -18,6 +19,7 @@
     "electron-builder": "^24.13.3",
     "naive-ui": "^2.41.0",
     "typescript": "^5.2.2",
+    "unocss": "^65.4.3",
     "vite": "^5.1.6",
     "vite-plugin-electron": "^0.28.6",
     "vite-plugin-electron-renderer": "^0.14.5",
