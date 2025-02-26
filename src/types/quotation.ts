@@ -9,13 +9,16 @@ export interface Quotation {
 }
 
 export interface QuotationItem {
+  index: string;
   productId: string;
   quantity: number;
   name: string;
-  unitPrice: number;
-  unitCost: number;
+  specifications?: string;
+  price: number;
+  cost: number;
   totalCost: number;
   totalPrice: number;
+  remark: string;
 }
 
 export interface Product {

@@ -2,7 +2,7 @@
 
 </script>
 <template>
-  <div class="side-nav">
+  <div class="side-nav bg-gray-100/50">
     asdfa
   </div>
 </template>
@@ -13,7 +13,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(71, 99, 209, 0.07);
   overflow-x: hidden;
 }
 </style>

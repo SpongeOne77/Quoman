@@ -1,0 +1,58 @@
+:root {
+    --system-blue: #007bff;
+    --system-gray: #8E8E93;
+    --background-primary: rgba(242, 242, 247, 0.8);
+    --background-secondary: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(60, 60, 67, 0.18);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+    background: var(--background-primary);
+    backdrop-filter: blur(20px);
+}
+
+.macos-card {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+    padding: 20px;
+    margin: 10px;
+    transition: transform 0.2s ease;
+}
+.macos-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: linear-gradient(to bottom, #FFF, #F2F2F7);
+    color: var(--system-blue);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.macos-btn:hover {
+    background: linear-gradient(to bottom, #F2F2F7, #E5E5EA);
+}
+
+
+.macos-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.6);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.macos-table th {
+    background: rgba(242,242,247,0.8);
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.macos-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+}

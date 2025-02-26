@@ -1,62 +1,39 @@
 <script setup lang="ts">
+import { NMenu } from 'naive-ui'
+import { ref, h, Component } from 'vue'
+import { RouterLink } from 'vue-router'
 
-import ProductList from "../components/ProductList.vue";
-import QuotationBuilder from "../components/QuotationBuilder.vue";
+const currentKey = ref('quote')
+const menuOptions = ref([
+  {
+    label: '报价管理',
+    key: 'quote',
+  },
+  {
+    label: '商品管理',
+    key: 'products',
+  }
+])
+
+// 切换显示内容
+const currentView = ref(null)
+
+const handleMenuChange = (key: string) => {
+  currentKey.value = key
+}
 </script>
 <template>
-  <!--  <ProductManage />-->
-  <div class="app-container">
-    <main class="main-content">
-      <ProductList/>
-      <QuotationBuilder/>
-
-    </main>
-  </div>
+  <n-layout-header bordered class="h-12 px-4 flex items-center bg-gray-100/50">
+    <div class="flex-1 flex items-center">
+      <n-text class="text-xl font-semibold mr-8">Quoman</n-text>
+      <n-menu
+        mode="horizontal"
+        :value="currentKey"
+        :options="menuOptions"
+        @update-value="handleMenuChange"></n-menu>
+    </div>
+  </n-layout-header>
 </template>
 <style scoped lang="css">
-.app-container {
-  display: grid;
-  grid-template:
-    "header header" auto
-    "main preview" 1fr
-    / 2fr 1fr;
-  height: 100vh;
-}
 
-.app-header {
-  grid-area: header;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: #2c3e50;
-  color: white;
-
-  nav button {
-    margin-left: 1rem;
-    padding: 0.5rem 1rem;
-    background: #3498db;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-  }
-}
-
-.main-content {
-  grid-area: main;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  overflow: auto;
-}
-
-.preview-sidebar {
-  grid-area: preview;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-left: 1px solid #ddd;
-  overflow-y: auto;
-}
 </style>

@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { platform } from 'node:process';
 import {store} from './store.ts'
+import { initAiProcessor } from "./processor/aiProcessor.ts";
 
 // const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -52,6 +53,7 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
+
   ipcMain.handle('store:get', (_, key) => store.get(key));
   ipcMain.handle('store:set', (_, key, value) => store.set(key, value));
   ipcMain.handle('store:delete', (_, key) => store.delete(key));
@@ -81,4 +83,8 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  createWindow()
+  console.log("[Main.ts]Initializing AI processor")
+  initAiProcessor()
+})

@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import Nav from "./components/layout/Nav.vue";
+import {NMessageProvider} from 'naive-ui'
 
 </script>
 
 <template>
-  <Nav></Nav>
-<!--  <div>-->
-<!--    <a href="https://electron-vite.github.io" target="_blank">-->
-<!--      <img src="/electron-vite.svg" class="logo" alt="Vite logo" />-->
-<!--    </a>-->
-<!--    <a href="https://vuejs.org/" target="_blank">-->
-<!--      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />-->
-<!--    </a>-->
-<!--  </div>-->
-  <RouterView class="content" />
+  <n-message-provider>
+    <Nav></Nav>
+    <RouterView class="content"/>
+  </n-message-provider>
 </template>
 
 <style scoped lang="css">

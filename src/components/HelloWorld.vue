@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import {Product} from "../types/quotation.ts";
 import {FormInst} from "naive-ui";
-import {NInput, NFormItem, NForm, NInputNumber, NButton} from 'naive-ui'
-import {useProductStore} from '../utils/store/productStore.ts'
+import {NInput, NFormItem, NForm, NInputNumber, NButton, NDataTable} from 'naive-ui'
+import {useProductStore} from '../utils/store/useLocalStore.ts'
 
 const {products, addProduct, clearAll, refresh} = useProductStore();
 
@@ -13,8 +13,10 @@ defineProps<{ msg: string }>()
 
 
 const addProductValue = ref<Product>({
+  id: '',
   name: '',
   brand: '',
+  unit: '',
   cost: 0,
   specifications: ''
 });
@@ -48,8 +50,7 @@ const handleAdd = async (): Promise<void> => {
   <n-button @click="handleAdd">添加</n-button>
   <n-button @click="clearAll">清空</n-button>
 
-  <pre>{{ products }}
-</pre>
+  <NDataTable :data="products" />
 </template>
 
 <style scoped>

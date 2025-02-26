@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import {NDataTable} from 'naive-ui'
-import {useProductStore} from "../utils/store/productStore.ts";
+import {useLocalStore} from "../utils/store/useLocalStore.ts";
 import {Product} from "../types/quotation.ts";
 
-const {products} = useProductStore();
+const {data} = useLocalStore();
 
 const fieldMapping: { [K in keyof Product]: string } = {
   id: '唯一识别码',

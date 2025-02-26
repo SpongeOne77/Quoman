@@ -1,9 +1,9 @@
 <!-- src/renderer/components/ProductList.vue -->
 <script setup lang="ts">
-import {useProductStore} from "../utils/store/productStore.ts";
+import {useLocalStore} from "../utils/store/useLocalStore.ts";
 import {Product} from "../types/quotation.ts";
 
-const { products } = useProductStore()
+const { data } = useLocalStore()
 
 const handleDragStart = (event: DragEvent, product: Product) => {
   event.dataTransfer?.setData('application/json', JSON.stringify({

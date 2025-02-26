@@ -1,5 +1,5 @@
 import { ipcRenderer, contextBridge } from 'electron';
-import type {StoreSchema} from './store.ts'
+// import type {StoreSchema} from './store.ts'
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
@@ -24,16 +24,20 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   // ...
 });
 
-contextBridge.exposeInMainWorld('electronStore', {
-  get: <K extends keyof StoreSchema>(key: K) => {
-    console.log('inokong store:get')
-     return ipcRenderer.invoke('store:get', key)
-  },
-  set: <K extends keyof StoreSchema>(key: K, value: StoreSchema[K]) => {
-    console.log('invoking store:set')
-    return ipcRenderer.invoke('store:set', key, value)
-  },
-  delete: (key: keyof StoreSchema) => ipcRenderer.invoke('store:delete', key),
-  onUpdate: (callback: (key: string, value: unknown) => void) => ipcRenderer.on('store:update', (_, key, value) => callback(key, value)),
-  clear: () => ipcRenderer.invoke('store:clear')
+// contextBridge.exposeInMainWorld('electronStore', {
+//   get: <K extends keyof StoreSchema>(key: K) => {
+//     console.log('inokong store:get')
+//      return ipcRenderer.invoke('store:get', key)
+//   },
+//   set: <K extends keyof StoreSchema>(key: K, value: StoreSchema[K]) => {
+//     console.log('invoking store:set')
+//     return ipcRenderer.invoke('store:set', key, value)
+//   },
+//   delete: (key: keyof StoreSchema) => ipcRenderer.invoke('store:delete', key),
+//   onUpdate: (callback: (key: string, value: unknown) => void) => ipcRenderer.on('store:update', (_, key, value) => callback(key, value)),
+//   clear: () => ipcRenderer.invoke('store:clear')
+// })
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  processWithAI: (payload) => ipcRenderer.invoke('process-with-ai', payload)
 })
