@@ -24,19 +24,28 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   // ...
 });
 
-// contextBridge.exposeInMainWorld('electronStore', {
-//   get: <K extends keyof StoreSchema>(key: K) => {
-//     console.log('inokong store:get')
-//      return ipcRenderer.invoke('store:get', key)
-//   },
-//   set: <K extends keyof StoreSchema>(key: K, value: StoreSchema[K]) => {
-//     console.log('invoking store:set')
-//     return ipcRenderer.invoke('store:set', key, value)
-//   },
-//   delete: (key: keyof StoreSchema) => ipcRenderer.invoke('store:delete', key),
-//   onUpdate: (callback: (key: string, value: unknown) => void) => ipcRenderer.on('store:update', (_, key, value) => callback(key, value)),
-//   clear: () => ipcRenderer.invoke('store:clear')
+contextBridge.exposeInMainWorld('store', {
+  clear: () => ipcRenderer.invoke('store:clear')
+})
+
+// contextBridge.exposeInMainWorld('productService', {
+//   get: <K extends keyof StoreSchema>(key: K) => ipcRenderer.invoke('product:get', key),
+//   set: <K extends keyof StoreSchema>(key: K, value: StoreSchema[K]) => ipcRenderer.invoke('product:set', key, value),
+//   delete: (key: keyof StoreSchema, id: string) => ipcRenderer.invoke('product:delete', key, id),
+//   onUpdate: (callback: (key: string, value: unknown) => void) => ipcRenderer.on('product:update', (_, key, value) => callback(key, value)),
 // })
+
+contextBridge.exposeInMainWorld('electron', {
+  ipcRenderer: {
+    invoke: (channel: string, ...args:any[]) => ipcRenderer.invoke(channel, ...args),
+    on: (channel: string, listener: Function) => {
+      const subscription = (_: any, ...args:any[]) => listener(...args)
+      ipcRenderer.on(channel, subscription)
+      return () => ipcRenderer.removeListener(channel, subscription)
+    }
+  }
+})
+
 
 contextBridge.exposeInMainWorld('electronAPI', {
   processWithAI: (payload) => ipcRenderer.invoke('process-with-ai', payload)

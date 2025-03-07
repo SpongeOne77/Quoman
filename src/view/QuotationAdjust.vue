@@ -2,7 +2,7 @@
 import { NUpload, NButton, NDataTable, NDivider, useMessage, NCard } from 'naive-ui'
 import {ref, computed, h, watch} from 'vue'
 import * as XLSX from 'xlsx'
-import {QuotationItem} from '../types/quotation.ts'
+import {QuotationItem} from '../types/quotation.d.ts'
 import {useQuotationFormatter} from "../composables/useQuotationFormatter.ts";
 
 const message = useMessage()

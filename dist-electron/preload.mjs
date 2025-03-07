@@ -20,6 +20,19 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   // You can expose other APTs you need here.
   // ...
 });
+electron.contextBridge.exposeInMainWorld("store", {
+  clear: () => electron.ipcRenderer.invoke("store:clear")
+});
+electron.contextBridge.exposeInMainWorld("electron", {
+  ipcRenderer: {
+    invoke: (channel, ...args) => electron.ipcRenderer.invoke(channel, ...args),
+    on: (channel, listener) => {
+      const subscription = (_, ...args) => listener(...args);
+      electron.ipcRenderer.on(channel, subscription);
+      return () => electron.ipcRenderer.removeListener(channel, subscription);
+    }
+  }
+});
 electron.contextBridge.exposeInMainWorld("electronAPI", {
   processWithAI: (payload) => electron.ipcRenderer.invoke("process-with-ai", payload)
 });

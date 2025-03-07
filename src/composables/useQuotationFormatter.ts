@@ -1,4 +1,4 @@
-import {QuotationItem} from "../types/quotation.ts";
+import {QuotationItem} from "../types/quotation.d.ts";
 import {computed, Ref} from "vue";
 
 type ExcelRow = Record<string, unknown>
@@ -7,8 +7,8 @@ type HeaderMapping = Record<string, keyof QuotationItem>
 const DEFAULT_HEADER_MAPPING: HeaderMapping = {
   '序号': 'index',
   '产品名称': 'name',
-  '型号规格': 'specifications',
-  '单位': 'unit',
+  '型号规格': 'specs',
+  '单位': 'sku',
   '数量': 'quantity',
   '含税单价': 'cost',
   '单个出售价格': 'price',

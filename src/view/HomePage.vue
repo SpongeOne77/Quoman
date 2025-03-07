@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NMenu } from 'naive-ui'
+import { NMenu, NText, NLayoutHeader } from 'naive-ui'
 import { ref, h, Component } from 'vue'
 import { RouterLink } from 'vue-router'
 

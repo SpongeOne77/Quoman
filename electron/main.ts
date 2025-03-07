@@ -1,9 +1,10 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { platform } from 'node:process';
-import {store} from './store.ts'
 import { initAiProcessor } from "./processor/aiProcessor.ts";
+import {registerProductServices} from "./services/productService.ts";
+import {registerQuotationHandlers} from "./services/quotaionService.ts";
 
 // const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -30,6 +31,8 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
+    titleBarStyle: 'hiddenInset',
+    trafficLightPosition: {x: 16, y: 16},
     height: 900,
     width: 1440,
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
@@ -54,15 +57,8 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 
-  ipcMain.handle('store:get', (_, key) => store.get(key));
-  ipcMain.handle('store:set', (_, key, value) => store.set(key, value));
-  ipcMain.handle('store:delete', (_, key) => store.delete(key));
-  ipcMain.handle('store:clear', (_) => store.clear())
-  store.onDidAnyChange((newValue) => {
-    console.log('ondidanychange', newValue)
-    win?.webContents.send('store:update', newValue);
-  });
-
+  registerProductServices()
+  registerQuotationHandlers()
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

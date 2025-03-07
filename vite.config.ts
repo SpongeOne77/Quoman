@@ -26,6 +26,6 @@ export default defineConfig({
         ? undefined
         : {},
     }),
-    UnoCSS()
+    UnoCSS(),
   ],
 })

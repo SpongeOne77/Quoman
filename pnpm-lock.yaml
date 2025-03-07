@@ -11,6 +11,12 @@ importers:
       '@heroicons/vue':
         specifier: ^2.2.0
         version: 2.2.0(vue@3.5.13(typescript@5.7.3))
+      '@vicons/ionicons5':
+        specifier: ^0.13.0
+        version: 0.13.0
+      '@vueuse/core':
+        specifier: ^12.8.2
+        version: 12.8.2(typescript@5.7.3)
       axios:
         specifier: ^1.7.9
         version: 1.7.9
@@ -23,6 +29,9 @@ importers:
       vue-router:
         specifier: '4'
         version: 4.5.0(vue@3.5.13(typescript@5.7.3))
+      vuedraggable:
+        specifier: ^4.1.0
+        version: 4.1.0(vue@3.5.13(typescript@5.7.3))
       xlsx:
         specifier: ^0.18.5
         version: 0.18.5
@@ -623,6 +632,9 @@ packages:
   '@types/verror@1.10.10':
     resolution: {integrity: sha512-l4MM0Jppn18hb9xmM6wwD1uTdShpf9Pn80aXTStnK1C94gtPvJcV2FrDmbOQUAQfJ1cKZHktkQUDwEqaAKXMMg==}
 
+  '@types/web-bluetooth@0.0.21':
+    resolution: {integrity: sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA==}
+
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
 
@@ -706,6 +718,9 @@ packages:
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
 
+  '@vicons/ionicons5@0.13.0':
+    resolution: {integrity: sha512-zvZKBPjEXKN7AXNo2Na2uy+nvuv6SP4KAMQxpKL2vfHMj0fSvuw7JZcOPCjQC3e7ayssKnaoFVAhbYcW6v41qQ==}
+
   '@vitejs/plugin-vue@5.2.1':
     resolution: {integrity: sha512-cxh314tzaWwOLqVes2gnnCtvBDcM1UMdn+iFR+UjAn411dPT3tOmqrJjbMd7koZpMAmBM/GqeV4n9ge7JSiJJQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -764,6 +779,15 @@ packages:
 
   '@vue/shared@3.5.13':
     resolution: {integrity: sha512-/hnE/qP5ZoGpol0a5mDi45bOd7t3tjYJBjsgCsivow7D48cJeV5l05RD82lPqi7gRiphZM37rnhW1l6ZoCNNnQ==}
+
+  '@vueuse/core@12.8.2':
+    resolution: {integrity: sha512-HbvCmZdzAu3VGi/pWYm5Ut+Kd9mn1ZHnn4L5G8kOQTPs/IwIAmJoBrmYk2ckLArgMXZj0AW3n5CAejLUO+PhdQ==}
+
+  '@vueuse/metadata@12.8.2':
+    resolution: {integrity: sha512-rAyLGEuoBJ/Il5AmFHiziCPdQzRt88VxR+Y/A/QhJ1EWtWqPBBAxTAFaSkviwEuOEZNtW8pvkPgoCZQ+HxqW1A==}
+
+  '@vueuse/shared@12.8.2':
+    resolution: {integrity: sha512-dznP38YzxZoNloI0qpEfpkms8knDtaoQ6Y/sfS0L7Yki4zh40LFHEhur0odJC6xTHG5dxWVPiUWBXn+wCG2s5w==}
 
   '@xmldom/xmldom@0.8.10':
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
@@ -1867,6 +1891,9 @@ packages:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
 
+  sortablejs@1.14.0:
+    resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==}
+
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
@@ -2106,6 +2133,11 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  vuedraggable@4.1.0:
+    resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==}
+    peerDependencies:
+      vue: ^3.0.1
 
   vueuc@0.4.64:
     resolution: {integrity: sha512-wlJQj7fIwKK2pOEoOq4Aro8JdPOGpX8aWQhV8YkTW9OgWD2uj2O8ANzvSsIGjx7LTOc7QbS7sXdxHi6XvRnHPA==}
@@ -2598,6 +2630,8 @@ snapshots:
   '@types/verror@1.10.10':
     optional: true
 
+  '@types/web-bluetooth@0.0.21': {}
+
   '@types/yauzl@2.10.3':
     dependencies:
       '@types/node': 20.17.17
@@ -2755,6 +2789,8 @@ snapshots:
       - supports-color
       - vue
 
+  '@vicons/ionicons5@0.13.0': {}
+
   '@vitejs/plugin-vue@5.2.1(vite@5.4.14(@types/node@22.13.1))(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       vite: 5.4.14(@types/node@22.13.1)
@@ -2845,6 +2881,23 @@ snapshots:
       vue: 3.5.13(typescript@5.7.3)
 
   '@vue/shared@3.5.13': {}
+
+  '@vueuse/core@12.8.2(typescript@5.7.3)':
+    dependencies:
+      '@types/web-bluetooth': 0.0.21
+      '@vueuse/metadata': 12.8.2
+      '@vueuse/shared': 12.8.2(typescript@5.7.3)
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@vueuse/metadata@12.8.2': {}
+
+  '@vueuse/shared@12.8.2(typescript@5.7.3)':
+    dependencies:
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - typescript
 
   '@xmldom/xmldom@0.8.10': {}
 
@@ -4100,6 +4153,8 @@ snapshots:
   smart-buffer@4.2.0:
     optional: true
 
+  sortablejs@1.14.0: {}
+
   source-map-js@1.2.1: {}
 
   source-map-support@0.5.21:
@@ -4332,6 +4387,11 @@ snapshots:
       '@vue/shared': 3.5.13
     optionalDependencies:
       typescript: 5.7.3
+
+  vuedraggable@4.1.0(vue@3.5.13(typescript@5.7.3)):
+    dependencies:
+      sortablejs: 1.14.0
+      vue: 3.5.13(typescript@5.7.3)
 
   vueuc@0.4.64(vue@3.5.13(typescript@5.7.3)):
     dependencies:
