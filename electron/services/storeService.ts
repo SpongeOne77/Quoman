@@ -6,6 +6,7 @@ class StoreService {
     migrations: {
       '1.0.0': (store) => {
         if (!store.get('products')) store.set('products', [])
+        if (!store.get('quotations')) store.set('quotations', [])
       }
     }
   })
@@ -53,10 +54,10 @@ class StoreService {
     pageSize: number;
     hasMore: boolean;
   }> {
-    let data = this.store.get(table) as StoreSchema[T]
+    let data = this.store.get(table) as StoreSchema[T][number];
     if (data.length < 1) {
       return {
-        data: [],
+        data: [] as unknown as StoreSchema[T][number],
         total: data.length,
         page: page > 1 ? page -1 : 1,
         pageSize,
@@ -66,10 +67,10 @@ class StoreService {
     if (filter) {
       data = data.filter(filter)
     }
-    console.log(`totals:${data.length}, page:${page}, pageSize:${pageSize}`)
+    console.log(`data: ${data}`)
     const start = (page - 1) * pageSize
     return {
-      data: data.slice(start, start + pageSize),
+      data: data.slice(start, start + pageSize) as unknown as StoreSchema[T][number],
       total: data.length,
       page,
       pageSize,

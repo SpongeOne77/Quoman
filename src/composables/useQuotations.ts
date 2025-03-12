@@ -19,7 +19,8 @@ export const useQuotations = () => {
     loading.value = true;
     const result = await invoke<{
       data: Quotation[],
-      total: number
+      total: number,
+      hasMore: boolean,
     }>('quotations:list', {
       search: searchKeyword.value,
       page: pagination.value.page,

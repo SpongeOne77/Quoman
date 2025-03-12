@@ -98,8 +98,7 @@ const menuOptions: MenuOption[] = [
   </n-message-provider>
 </template>
 
-<style scoped lang="css">
-.content {
-  margin-left: 50px;
-}
+<style lang="css">
+@import "style.css";
+
 </style>
