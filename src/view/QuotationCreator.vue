@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
-import draggable from 'vuedraggable'
+import {VueDraggableNext} from 'vue-draggable-next'
 import {Add, Chatbubble, Pencil, Save, Trash} from '@vicons/ionicons5'
 import {useQuotations} from "../composables/useQuotations.ts";
 import {useProducts} from "../composables/useProducts.ts";
@@ -24,6 +24,10 @@ import {
 const {createQuotation} = useQuotations()
 const {loadProducts, loading: productLoading, products} = useProducts()
 
+const props = defineProps<{
+  draftData: Quotation
+}>()
+
 
 const createQuotationItem = (product: Product): QuotationItem => {
   console.log(quotation.value.markupRate)
@@ -45,9 +49,15 @@ const createQuotationItem = (product: Product): QuotationItem => {
 // 组件状态
 const searchKeyword = ref('')
 const quotation = ref({
+  title: '新报价单',
+  status: 'draft',
+  project: '测试项目',
+  client: '中环实业',
+  company: '旌旗',
+  date: new Date().toISOString(),
   sections: [],
   markupRate: 0.3
-} as Quotation)
+} as unknown as Quotation)
 
 // 税率选项
 const taxOptions = computed(() => [
@@ -78,6 +88,7 @@ const addSection = () => {
 
 // 删除模块
 const removeSection = (index: number) => {
+  console.log('removing section', index)
   quotation.value.sections.splice(index, 1)
 }
 
@@ -131,13 +142,23 @@ watch(
     deep: true,
   }
 )
+
+watch(
+  () => props.draftData,
+  (newVal) => {
+    if (newVal) {
+      quotation.value = newVal
+    }
+  },
+  { immediate: true , deep: true }
+)
 </script>
 
 <template>
   <n-layout has-sider class="h-screen">
     <!-- 左侧商品面板 -->
     <n-layout-sider
-      width="320"
+      width="280"
       bordered
       collapse-mode="width"
       :collapsed-width="0"
@@ -152,14 +173,16 @@ watch(
           <div
             class="grid grid-cols-1 gap-2"
           >
-            <draggable
+            <vue-draggable-next
               class="drag-area product-group"
               :list="filteredProducts"
               :clone="createQuotationItem"
               :group="{name: 'product', pull: 'clone'}"
               item-key="productId"
             >
-              <template #item="{ element }">
+              <div
+              v-for="element in filteredProducts"
+              :key="element.id">
                 <n-card
                   class="cursor-move draggable-item"
                 >
@@ -168,8 +191,8 @@ watch(
                     <span class="text-gray-500">¥{{ element.cost }}</span>
                   </div>
                 </n-card>
-              </template>
-            </draggable>
+              </div>
+            </vue-draggable-next>
 
           </div>
         </n-spin>
@@ -178,9 +201,11 @@ watch(
 
     <!-- 右侧报价制作区域 -->
     <n-layout-content class="bg-gray-50 p-6">
-      <div class="max-w-4xl mx-auto space-y-6">
+      <div class="flex-1 p-4">
         <header class="flex justify-between items-center">
-          <n-h2>新报价单</n-h2>
+          <n-h2>
+            <n-input type="text" placeholder="新报价单" v-model:value="quotation.title"></n-input>
+          </n-h2>
           <n-button type="primary" @click="saveQuotation">
             <template #icon>
               <n-icon>
@@ -198,18 +223,16 @@ watch(
           </template>
           添加模块
         </n-button>
-        <draggable
-          class="product-list"
-          :list="quotation.sections"
-          group="sections"
-          item-key="id"
-          draggable="true"
-        >
-          <template #item="{ element: section, sectionIndex }">
+        <div class="grid grid-flow-col auto-cols-[minmax(500px,1fr)] gap-4 overflow-x-auto pb-4">
+          <div
+            v-for="(section, index) in quotation.sections"
+            :key="section.id"
+            class="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
             <div
               class="section-container"
             >
-              <n-card class="relative">
+              <n-card class="relative"
+              >
                 <template #header>
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
@@ -224,7 +247,7 @@ watch(
                         style="width: 120px"
                       />
                     </div>
-                    <n-button circle type="error" @click="removeSection(sectionIndex)">
+                    <n-button circle type="error" @click="removeSection(index)">
                       <n-icon>
                         <Trash/>
                       </n-icon>
@@ -233,15 +256,17 @@ watch(
                 </template>
 
                 <!-- 模块内容 -->
-                <div class="section-content">
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
                   <!-- 商品项列表 -->
-                  <draggable
-                    class="quotation-item"
+                  <vue-draggable-next
+                    class="grid grid-cols-2 gap-3"
                     :list="section.items"
-                    :group="{name: 'product', pull: 'clone'}"
-                    item-key="productId"
+                    group="product"
                   >
-                    <template #item="{ element: item, index: itemIndex }">
+                    <div
+                      v-for="(item, itemIndex) in section.items"
+                      :key="item.productId"
+                    >
                       <div class="item-container">
                         <n-card
                           class="quotation-item-card group"
@@ -255,7 +280,7 @@ watch(
                               <n-h3 class="!m-0 text-[15px] font-semibold text-gray-900 dark:text-gray-100">
                                 {{ item.name }}
                               </n-h3>
-                              <n-text depth="3" class="text-[13px]">
+                              <n-text depth="3" class="text-[13px] overflow-hidden text-ellipsis">
                                 {{ item.specs || '无' }}
                               </n-text>
                             </div>
@@ -271,35 +296,32 @@ watch(
                           </div>
 
                           <!-- 核心数据区 -->
-                          <div class="grid grid-cols-4 gap-4 mb-4">
+                          <div class="flex justify-between items-start mb-4">
                             <!-- 数量控制 -->
                             <div class="space-y-1">
                               <div class="flex items-center gap-1">
-                                <n-text depth="3" class="text-xs">数量</n-text>
                                 <n-input-number
                                   v-model:value="item.quantity"
                                   :min="1"
-                                  size="small"
+                                  size="tiny"
                                   class="w-20"
                                 />
                                 <n-text depth="3" class="text-xs">{{ item.sku }}</n-text>
                               </div>
-                            </div>
 
-                            <!-- 单价显示 -->
-                            <div class="space-y-1">
-                              <n-text depth="3" class="text-xs">单价</n-text>
-                              <n-text class="font-mono text-sm">
-                                ¥{{ item.price }}
-                              </n-text>
-                            </div>
+                              <div class="space-y-1">
+                                <n-text depth="3" class="text-xs">单价</n-text>
+                                <n-text class="font-mono text-sm">
+                                  ¥{{ item.price }}
+                                </n-text>
+                              </div>
 
-                            <!-- 合价 -->
-                            <div class="space-y-1">
-                              <n-text depth="3" class="text-xs">合价</n-text>
-                              <n-text class="font-mono text-sm text-primary">
-                                ¥{{ item.price * item.quantity }}
-                              </n-text>
+                              <div class="space-y-1">
+                                <n-text depth="3" class="text-xs">合价</n-text>
+                                <n-text class="font-mono text-sm text-primary">
+                                  ¥{{ item.price * item.quantity }}
+                                </n-text>
+                              </div>
                             </div>
                           </div>
 
@@ -312,8 +334,9 @@ watch(
                           </div>
                         </n-card>
                       </div>
-                    </template>
-                  </draggable>
+                    </div>
+                  </vue-draggable-next>
+
                 </div>
 
                 <template #footer>
@@ -323,9 +346,8 @@ watch(
                 </template>
               </n-card>
             </div>
-          </template>
-        </draggable>
-
+          </div>
+        </div>
 
         <!-- 总计面板 -->
         <n-card class="sticky bottom-0 bg-white shadow-lg">
@@ -357,9 +379,9 @@ watch(
   }
 }
 
-.section-content {
-  position: relative;
-  z-index: 2;
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.slate.300') transparent;
 }
 
 .item-container {
